@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Account - Grand Hotel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container vh-100 d-flex flex-column justify-content-center align-items-center">
+  <div class="text-center mb-4">
+    <div class="brand">Grand Hotel</div>
+    <div class="subtitle">Create an account to start booking</div>
+  </div>
+
+  <div class="card shadow p-4 w-100" style="max-width: 460px;">
+    <h4 class="mb-3 text-center">Create Account</h4>
+
+    <form id="signupForm" novalidate>
+      <div class="mb-3">
+        <label for="fullName">Full Name *</label>
+        <input id="fullName" type="text" class="form-control" placeholder="John Doe" minlength="2" maxlength="80" required>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="signupEmail">Email Address *</label>
+          <input id="signupEmail" type="email" class="form-control" placeholder="your@email.com" required>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="signupPhone">Phone Number *</label>
+          <input id="signupPhone" type="tel" class="form-control" placeholder="09XXXXXXXXX" pattern="^09\d{9}$" required>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="signupPassword">Password *</label>
+          <input id="signupPassword" type="password" class="form-control" placeholder="Minimum 8 characters" minlength="8" required>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="confirmPassword">Confirm Password *</label>
+          <input id="confirmPassword" type="password" class="form-control" placeholder="Re-enter password" minlength="8" required>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="role">Account Role *</label>
+          <select id="role" class="form-control" required>
+            <option value="user" selected>User</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="adminCode">Admin Code (if admin)</label>
+          <input id="adminCode" type="password" class="form-control" placeholder="Enter admin code">
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <input id="agreeTerms" type="checkbox" required>
+        I agree to the <a href="#" class="link">Terms</a> and
+        <a href="#" class="link">Privacy Policy</a>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100 mb-3">Create Account</button>
+
+      <div class="text-center small-text">or sign up with</div>
+
+      <div class="text-center mt-3 small-text">
+        Already have an account? <a href="login.html" class="link">Sign in</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  const ADMIN_SIGNUP_CODE = "ADMIN500";
+
+  function hashPassword(password) {
+    return crypto.subtle.digest("SHA-256", new TextEncoder().encode(password)).then((buffer) => {
+      return Array.from(new Uint8Array(buffer)).map((b) => b.toString(16).padStart(2, "0")).join("");
+    });
+  }
+
+  function encryptText(text) {
+    // Frontend-only encryption for localStorage data at rest.
+    return crypto.subtle.digest("SHA-256", new TextEncoder().encode(text + "-samsons-local")).then((buffer) => {
+      return Array.from(new Uint8Array(buffer)).map((b) => b.toString(16).padStart(2, "0")).join("");
+    });
+  }
+
+  document.getElementById("signupForm").addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    if (!this.checkValidity()) {
+      this.reportValidity();
+      return;
+    }
+
+    const fullName = document.getElementById("fullName").value.trim();
+    const email = document.getElementById("signupEmail").value.trim().toLowerCase();
+    const phone = document.getElementById("signupPhone").value.trim();
+    const password = document.getElementById("signupPassword").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+    const role = document.getElementById("role").value;
+    const adminCode = document.getElementById("adminCode").value;
+
+    const passwordStrong = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+    if (!passwordStrong.test(password)) {
+      alert("Password must be at least 8 characters and include letters and numbers.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+
+    if (role === "admin" && adminCode !== ADMIN_SIGNUP_CODE) {
+      alert("Invalid admin code.");
+      return;
+    }
+
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    if (users.some((user) => user.email === email)) {
+      alert("Email is already registered.");
+      return;
+    }
+
+    const passwordHash = await hashPassword(password);
+    const encryptedPhone = await encryptText(phone);
+
+    users.push({
+      id: Date.now(),
+      fullName,
+      email,
+      phoneEncrypted: encryptedPhone,
+      passwordHash,
+      role,
+      createdAt: new Date().toISOString()
+    });
+
+    localStorage.setItem("users", JSON.stringify(users));
+    alert("Account created successfully. You can now sign in.");
+    window.location.href = "login.html";
+  });
+</script>
+
+</body>
+</html>

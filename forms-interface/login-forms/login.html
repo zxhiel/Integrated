@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LoginForm</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container vh-100 d-flex flex-column justify-content-center align-items-center">
+  <div class="text-center mb-4">
+    <div class="LOGO">
+      <img src="logo.jpg" alt="Samson Transient Logo" style="width: 100px; height: auto;">
+    </div>
+    <div class="brand">Samson Transient/ OR LOGO D2</div>
+    <div class="subtitle">Sign in to manage your reservations</div>
+  </div>
+
+  <div class="card shadow p-4 w-100" style="max-width: 420px;">
+    <h4 class="mb-3 text-center">Login</h4>
+
+    <form id="loginForm" novalidate>
+      <div class="mb-3">
+        <label for="loginEmail">Email Address</label>
+        <input id="loginEmail" type="email" class="form-control" placeholder="your@email.com" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="loginPassword">Password</label>
+        <input id="loginPassword" type="password" class="form-control" placeholder="Enter your password" minlength="8" required>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <input type="checkbox"> Remember me
+        </div>
+        <a href="#" class="link small-text">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Sign In</button>
+
+      <div class="text-center small-text mb-2 mt-3">or</div>
+    </form>
+
+    <div class="text-center mt-3 small-text">
+      Don’t have an account? <a href="signup.html" class="link">Sign up</a>
+    </div>
+  </div>
+
+  <p class="small-text mt-4 text-center">
+    By signing in, you agree to our Terms of Service and Privacy Policy
+  </p>
+</div>
+
+<script>
+  function hashPassword(password) {
+    return crypto.subtle.digest("SHA-256", new TextEncoder().encode(password)).then((buffer) => {
+      return Array.from(new Uint8Array(buffer)).map((b) => b.toString(16).padStart(2, "0")).join("");
+    });
+  }
+
+  function setUserSession(user) {
+    sessionStorage.setItem("isLoggedIn", "true");
+    sessionStorage.setItem("currentUserEmail", user.email || "");
+    sessionStorage.setItem("currentUserName", user.fullName || "");
+    sessionStorage.setItem("userRole", user.role || "user");
+  }
+
+  document.getElementById("loginForm").addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const emailInput = document.getElementById("loginEmail");
+    const passwordInput = document.getElementById("loginPassword");
+    const email = emailInput.value.trim().toLowerCase();
+    const password = passwordInput.value;
+
+    if (!this.checkValidity()) {
+      this.reportValidity();
+      return;
+    }
+
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+
+    // Compatibility mode: if no registered users yet, keep old flow.
+    if (users.length === 0) {
+      setUserSession({ email: email, role: "user" });
+      window.location.href = "../reservationForm/reservation.html";
+      return;
+    }
+
+    const passwordHash = await hashPassword(password);
+    const matchedUser = users.find((user) => {
+      return user.email === email && user.passwordHash === passwordHash;
+    });
+
+    if (!matchedUser) {
+      alert("Invalid email or password.");
+      return;
+    }
+
+    setUserSession(matchedUser);
+    window.location.href = "../reservationForm/reservation.html";
+  });
+</script>
+
+</body>
+</html>

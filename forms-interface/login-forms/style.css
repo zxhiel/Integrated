@@ -1,0 +1,58 @@
+body {
+  background: #f4f5f7;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  color: #de6026;
+}
+
+.brand {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  color: #ec4310;
+  margin-bottom: 30px;
+}
+
+.card {
+  border: none;
+  border-radius: 12px;
+}
+
+.form-control {
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border-color: #0d6efd;
+}
+
+.btn-primary {
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  color: #de6026;
+}
+
+.social-btn {
+  border-radius: 8px;
+  padding: 10px;
+  font-weight: 500;
+}
+
+.small-text {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.link {
+  color: #0d6efd;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

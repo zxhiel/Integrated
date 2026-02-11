@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Form</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="contactUs.css" />
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <h1>Get in Touch</h1>
+      <p>We're here to help you with any queries or support needs.</p>
+    </section>
+
+    <section class="content">
+      <div class="card form-card">
+        <h2>Send us a Message</h2>
+        <form>
+          <label>
+            Full Name
+            <input type="text" placeholder="Enter your full name" />
+          </label>
+
+          <label>
+            Email
+            <input type="email" placeholder="Enter your email" />
+          </label>
+
+          <label>
+            Phone Number
+            <input type="tel" placeholder="Enter your phone number" />
+          </label>
+
+          <label>
+            Message
+            <textarea rows="4" placeholder="Tell us how we can help you..."></textarea>
+          </label>
+
+          <button type="submit">Send Message</button>
+        </form>
+      </div>
+
+      <div class="side">
+        <div class="card info-card">
+          <h3>Contact Information</h3>
+          <div class="info-item">
+            <span class="icon blue">☎</span>
+            <div>
+              <p class="label">Customer Care</p>
+              <p>+63 919 917 6652</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <span class="icon purple">✉</span>
+            <div>
+              <p class="label">Email Address</p>
+              <p>support@samsonsibs.com</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <span class="icon green">📍</span>
+            <div>
+              <p class="label">Office Address</p>
+              <p>Santa Rosa, Nueva Ecija</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card map-card">
+          <div class="map-icon">📍</div>
+          <p class="map-title">Office Location Map</p>
+          <p class="map-sub">Google Maps integration</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
