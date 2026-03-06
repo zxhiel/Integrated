@@ -1,3 +1,4 @@
+// Reset scroll to top each time the homepage loads.
 window.addEventListener("load", () => {
   window.scrollTo(0, 0);
 });
@@ -35,3 +36,41 @@ const observer = new IntersectionObserver(
 );
 
 revealItems.forEach((item) => observer.observe(item));
+
+const ROOM_DETAILS_URL = "../RoomDetails-interface/rooms.html";
+const LOGIN_URL = "../forms-interface/login-forms/login.html";
+
+// Return true when the current browser session is authenticated.
+function isLoggedIn() {
+  return sessionStorage.getItem("isLoggedIn") === "true";
+}
+
+// Route booking actions to login or room details based on auth state.
+function routeToBooking() {
+  window.location.href = isLoggedIn() ? ROOM_DETAILS_URL : LOGIN_URL;
+}
+
+const loginLink = document.querySelector('.auth a[href*="login.html"]');
+const signUpLink = document.querySelector('.auth a[href*="signup.html"]');
+
+if (isLoggedIn() && loginLink) {
+  loginLink.textContent = "My Rooms";
+  loginLink.href = ROOM_DETAILS_URL;
+
+  if (signUpLink) {
+    signUpLink.textContent = "Log out";
+    signUpLink.href = "#";
+    signUpLink.addEventListener("click", (event) => {
+      event.preventDefault();
+      sessionStorage.removeItem("isLoggedIn");
+      sessionStorage.removeItem("currentUserEmail");
+      sessionStorage.removeItem("currentUserName");
+      sessionStorage.removeItem("userRole");
+      window.location.href = "index.html";
+    });
+  }
+}
+
+document.querySelectorAll(".banner-btn, .btn.reserve, .btn.ghost").forEach((button) => {
+  button.addEventListener("click", routeToBooking);
+});

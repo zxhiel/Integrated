@@ -1,16 +1,44 @@
 :root {
-  --bg: #d7d7d7;
+  --bg: #ffff;
   --card: #ffffff;
   --text: #1f1f1f;
-  --muted: #6d6d6d;
-  --accent: #2f7a73;
+  --muted: #afafaf;
+  --accent: #fe8e49;
   --shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
 }
+  
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(48px) scale(0.98);
+  filter: blur(6px);
+  transition: opacity 0.8s ease, transform 0.8s ease, filter 0.8s ease;
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: transform, opacity, filter;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+ @media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transition: none;
+    transform: none;
+    opacity: 1;
+  }
+}
+
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -38,9 +66,17 @@ a {
 }
 
 .logo {
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  ;
+}
+
+.logo img {
+  height: 50px;
+  width: auto;
+  display: block;
+  padding-left: 1px;
 }
 
 .nav {
@@ -71,16 +107,24 @@ a {
   cursor: pointer;
   font-weight: 600;
   font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
 }
 
+/*buttons*/
 .btn.primary {
   background: var(--text);
-  color: #fff;
+  color: #000000;
+  background-color: #fe8e49;
+  
 }
 
 .btn.reserve {
   background: var(--accent);
-  color: #fff;
+  color: #000000;
+  
 }
 
 .btn.ghost {
@@ -90,24 +134,24 @@ a {
 }
 
 main {
-  padding: 40px 8vw 100px;
+  padding: 60px 8vw 140px;
 }
 
-.hero {
+.top-section {
   display: grid;
-  gap: 24px;
+  gap: 36px;
 }
-
-.hero-image {
+/*background image*/
+.banner-image {
   position: relative;
-  height: 360px;
+  height: 460px;
   border-radius: 24px;
   overflow: hidden;
-  background: url("https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&w=1400&q=80") center/cover;
+  background: url("transienteditedpic copy.jpg") center/cover;
   box-shadow: var(--shadow);
 }
-
-.hero-overlay {
+/* samson sibs text*/
+.banner-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(120deg, rgba(0, 0, 0, 0.55), transparent 60%);
@@ -118,29 +162,47 @@ main {
   gap: 14px;
 }
 
-.eyebrow {
+.mini-title {
   letter-spacing: 0.3em;
   font-size: 0.7rem;
   text-transform: uppercase;
 }
+.banner-btn{
+    width: 120px;
+    height: 25px;
+    font: optional;
+    color: #000;
+    
 
-.hero h1 {
+}
+
+
+.top-section h1 {
   font-family: "Playfair Display", serif;
   font-size: clamp(2.5rem, 4vw, 3.8rem);
   line-height: 1.1;
 }
 
-.hero-sub {
+
+
+.banner-sub {
   max-width: 420px;
   color: #efefef;
 }
 
-.hero-card {
+.promo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(140px, 1fr));
+  gap: 32px;
+}
+
+.promo-card {
   height: 140px;
   border-radius: 20px;
   background: linear-gradient(180deg, #f1f1f1, #ffffff);
   box-shadow: var(--shadow);
 }
+
 
 .section-title {
   text-align: center;
@@ -148,7 +210,7 @@ main {
   font-weight: 600;
   letter-spacing: 0.4em;
   text-transform: lowercase;
-  margin: 80px 0 36px;
+  margin: 100px 0 48px;
 }
 
 .rooms {
@@ -158,7 +220,7 @@ main {
 .room-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 24px;
+  gap: 32px;
 }
 
 .room-card {
@@ -223,7 +285,7 @@ main {
 .location-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 24px;
+  gap: 32px;
 }
 
 .map-card,
@@ -245,6 +307,7 @@ main {
   padding: 24px;
   display: grid;
   gap: 14px;
+  
 }
 
 .info-header {
@@ -252,9 +315,12 @@ main {
   gap: 4px;
 }
 
+.btn-
 .rating {
   font-size: 0.9rem;
   color: var(--accent);
+  
+  
 }
 
 .info-text {
@@ -268,9 +334,88 @@ main {
 }
 
 .footer {
-  text-align: center;
-  padding: 24px 0 40px;
+  background: var(--bg);
+  margin-top: 90px;
+  color: var(--text);
+  border-radius: 0 0 24px 24px;
+  overflow: hidden;
+}
+
+.footer-bar {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  height: 8px;
+}
+
+.footer-bar span:nth-child(1) { background: var(--accent); }
+.footer-bar span:nth-child(2) { background: #b9b9b9; }
+.footer-bar span:nth-child(3) { background: var(--text); }
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 36px;
+  padding: 36px 8vw 20px;
+}
+
+.footer h3 {
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.footer h4 {
+  margin: 18px 0 10px;
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.footer p {
   color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.footer ul {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  padding: 0;
+}
+
+.socials {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.socials a {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  background: var(--text);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.footer-logo {
+  margin-top: 24px;
+  font-family: "Playfair Display", serif;
+  font-size: 2rem;
+  color: var(--text);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding: 18px 0 28px;
+  color: var(--muted);
+  font-size: 0.85rem;
 }
 
 @media (max-width: 900px) {
@@ -302,8 +447,12 @@ main {
     background: #b9b9b9;
   }
 
-  .hero-overlay {
+  .banner-overlay {
     padding: 28px;
+  }
+
+  .promo-grid {
+    grid-template-columns: repeat(2, minmax(140px, 1fr));
   }
 }
 
@@ -312,8 +461,12 @@ main {
     padding: 30px 6vw 80px;
   }
 
-  .hero-image {
+  .banner-image {
     height: 280px;
+  }
+
+  .promo-grid {
+    grid-template-columns: 1fr;
   }
 
   .section-title {
@@ -330,9 +483,10 @@ main {
   --ui-muted: #6f6b80;
   --ui-line: #e9e7f1;
   --ui-primary: #211a4f;
+  --ui-accent: #fe8e49;
 }
 body { font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif; background: var(--ui-bg); color: var(--ui-text); }
-button, .btn, .cta { background: var(--ui-primary); color: #fff; border-radius: 12px; }
+.btn.primary, .btn.reserve, .banner-btn { background: var(--ui-primary); color: #fff; }
 
 /* Final theme override: gray + white + orange */
 :root {
@@ -343,4 +497,4 @@ button, .btn, .cta { background: var(--ui-primary); color: #fff; border-radius: 
   --theme-accent: #fe8e49;
 }
 body { background: var(--theme-bg); color: var(--theme-text); }
-button, .btn, .cta { background: var(--theme-accent); color: #fff; }
+.btn.primary, .btn.reserve, .banner-btn { background: var(--theme-accent); color: #fff; }

@@ -473,3 +473,68 @@ main {
     letter-spacing: 0.2em;
   }
 }
+
+/* Global consistency overrides */
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+:root {
+  --ui-bg: #f5f4f8;
+  --ui-card: #ffffff;
+  --ui-text: #151326;
+  --ui-muted: #6f6b80;
+  --ui-line: #e9e7f1;
+  --ui-primary: #211a4f;
+  --ui-accent: #fe8e49;
+  --ui-radius: 12px;
+}
+body {
+  font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+  background: var(--ui-bg);
+  color: var(--ui-text);
+}
+.topbar {
+  background: var(--ui-card);
+  border-bottom: 1px solid var(--ui-line);
+}
+.btn,
+.banner-btn {
+  border-radius: var(--ui-radius);
+}
+.btn.primary,
+.btn.reserve,
+.banner-btn {
+  background: var(--ui-primary);
+  color: #fff;
+  border: 1px solid transparent;
+}
+.btn.ghost {
+  border-color: var(--ui-line);
+  color: var(--ui-text);
+  background: #fff;
+}
+.room-card,
+.map-card,
+.info-card,
+.promo-card {
+  border: 1px solid var(--ui-line);
+  box-shadow: 0 12px 28px rgba(20, 17, 49, 0.06);
+}
+.footer-bar span:nth-child(1) { background: var(--ui-primary); }
+.footer-bar span:nth-child(2) { background: var(--ui-accent); }
+.footer-bar span:nth-child(3) { background: var(--ui-line); }
+
+/* Final theme override: gray + white + orange */
+:root {
+  --theme-bg: #f3f3f5;
+  --theme-card: #ffffff;
+  --theme-text: #1f1f1f;
+  --theme-muted: #6f6f6f;
+  --theme-line: #d9d9dd;
+  --theme-accent: #fe8e49;
+  --theme-accent-dark: #e07d3f;
+}
+body { background: var(--theme-bg); color: var(--theme-text); }
+.topbar { background: #eeeeef; border-bottom: 1px solid var(--theme-line); }
+.room-card, .map-card, .info-card, .promo-card { background: var(--theme-card); border: 1px solid var(--theme-line); box-shadow: none; }
+.btn.primary, .btn.reserve, .banner-btn { background: var(--theme-accent); color: #fff; border: none; }
+.btn.primary:hover, .btn.reserve:hover, .banner-btn:hover { background: var(--theme-accent-dark); }
+.btn.ghost { background: #fff; border-color: var(--theme-line); color: var(--theme-text); }

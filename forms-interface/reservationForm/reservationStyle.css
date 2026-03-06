@@ -108,6 +108,10 @@
             padding-left: 45px;
         }
 
+        .input-with-icon.no-icon input, .input-with-icon.no-icon select {
+            padding-left: 15px;
+        }
+
         .slider-container {
             display: flex;
             align-items: center;
@@ -308,3 +312,126 @@
             }
         }
     
+.amenities-list {
+    display: grid;
+    gap: 12px;
+}
+
+.amenity-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.amenity-item i {
+    color: #3498db;
+    width: 20px;
+    text-align: center;
+}
+
+.amenity-section {
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    padding: 14px;
+    background: #fff;
+}
+
+.amenity-section h3 {
+    margin-bottom: 8px;
+    color: #2c3e50;
+}
+
+.amenity-note {
+    color: #6b7280;
+    margin-bottom: 8px;
+}
+
+.rate-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 3px 0;
+}
+
+.amenity-bullets {
+    margin-left: 18px;
+}
+
+#guests.form-control {
+    -moz-appearance: textfield;
+}
+
+#guests.form-control::-webkit-outer-spin-button,
+#guests.form-control::-webkit-inner-spin-button {
+    margin: 0;
+}
+
+/* Global consistency overrides */
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+:root {
+    --ui-bg: #f5f4f8;
+    --ui-card: #ffffff;
+    --ui-text: #151326;
+    --ui-muted: #6f6b80;
+    --ui-line: #e9e7f1;
+    --ui-primary: #211a4f;
+}
+body {
+    font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+    background: var(--ui-bg);
+    color: var(--ui-text);
+}
+header {
+    background: var(--ui-primary);
+    border-radius: 14px;
+}
+.reservation-form,
+.booking-details,
+.summary-item,
+.amenity-section {
+    border: 1px solid var(--ui-line);
+    box-shadow: 0 12px 28px rgba(20, 17, 49, 0.06);
+}
+.section-title,
+.form-group label,
+.amenity-section h3 {
+    color: var(--ui-text);
+}
+.btn {
+    background: var(--ui-primary);
+    border-radius: 12px;
+}
+.btn:hover {
+    background: #1a1542;
+    box-shadow: 0 8px 20px rgba(20, 17, 49, 0.2);
+}
+.form-control {
+    border-color: var(--ui-line);
+    border-radius: 10px;
+}
+.form-control:focus {
+    border-color: var(--ui-primary);
+    box-shadow: 0 0 0 3px rgba(33, 26, 79, 0.12);
+}
+
+/* Final theme override: gray + white + orange */
+:root {
+  --theme-bg: #f3f3f5;
+  --theme-card: #ffffff;
+  --theme-text: #1f1f1f;
+  --theme-muted: #6f6f6f;
+  --theme-line: #d9d9dd;
+  --theme-accent: #fe8e49;
+}
+body { background: var(--theme-bg); color: var(--theme-text); }
+header { background: #eeeeef; color: var(--theme-text); }
+.reservation-form, .booking-details, .summary-item, .amenity-section { background: var(--theme-card); border-color: var(--theme-line); box-shadow: none; }
+.btn { background: var(--theme-accent); color: #fff; }
+.btn:hover { background: #e07d3f; box-shadow: none; }
+.form-control { border-color: var(--theme-line); }
+.form-control:focus { border-color: var(--theme-accent); box-shadow: 0 0 0 3px rgba(254, 142, 73, 0.2); }
+.section-title, .form-group label, .amenity-section h3 { color: var(--theme-text); }

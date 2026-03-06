@@ -112,3 +112,51 @@ button {
 @media (max-width: 900px) {
   .content { grid-template-columns: 1fr; }
 }
+
+/* Global consistency overrides */
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+:root {
+  --ui-bg: #f5f4f8;
+  --ui-card: #ffffff;
+  --ui-text: #151326;
+  --ui-muted: #6f6b80;
+  --ui-line: #e9e7f1;
+  --ui-primary: #211a4f;
+}
+body {
+  font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+  background: var(--ui-bg);
+  color: var(--ui-text);
+}
+.card,
+.form-card,
+.info-card,
+.map-card {
+  border: 1px solid var(--ui-line);
+  box-shadow: 0 12px 28px rgba(20, 17, 49, 0.06);
+}
+button {
+  background: var(--ui-primary);
+  border-radius: 12px;
+}
+.hero p,
+.map-sub,
+.info-item,
+label {
+  color: var(--ui-muted);
+}
+
+/* Final theme override: gray + white + orange */
+:root {
+  --theme-bg: #f3f3f5;
+  --theme-card: #ffffff;
+  --theme-text: #1f1f1f;
+  --theme-muted: #6f6f6f;
+  --theme-line: #d9d9dd;
+  --theme-accent: #fe8e49;
+}
+body { background: var(--theme-bg); color: var(--theme-text); }
+.card, .form-card, .info-card, .map-card { background: var(--theme-card); border-color: var(--theme-line); box-shadow: none; }
+button { background: var(--theme-accent); color: #fff; }
+button:hover { background: #e07d3f; }
+.hero p, .map-sub, .info-item, label { color: var(--theme-muted); }

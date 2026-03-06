@@ -12,12 +12,12 @@
         <h1>Room Reservations</h1>
         <p class="subtitle">Samson Sibs Transient House — Studio Unit rates and info</p>
         <div class="tabs">
-          <div class="tab active">Browse Rooms</div>
-          <div class="tab">My Reservations</div>
+          <div class="tab active" data-tab="browse">Browse Rooms</div>
+          <div class="tab" data-tab="reservations">My Reservations</div>
         </div>
       </header>
 
-      <section class="cards">
+      <section class="cards" id="browseCards">
         <article class="card">
           <img src="images/studio-1.jpg" alt="Studio Unit 101" />
           <div class="card-body">
@@ -99,8 +99,7 @@
         </article>
       </section>
 
-      <section class="details">
-
+      <section class="details" id="browseDetails">
         <div class="detail-card">
           <h3>Transient Rates</h3>
           <p class="meta">RATE: Initial rate for two guests</p>
@@ -161,6 +160,10 @@
         </div>
       </section>
 
+      <section class="my-reservations hidden" id="myReservationsSection">
+        <div id="reservationList" class="reservation-list"></div>
+      </section>
+
       <footer>More info: Please message or call for availability and promos.</footer>
     </div>
 
@@ -204,32 +207,6 @@
       </div>
     </div>
 
-    <script>
-      const modal = document.getElementById("roomModal");
-      const modalTitle = document.getElementById("modalTitle");
-      const modalHero = modal.querySelector(".modal-hero");
-      const modalThumbs = modal.querySelectorAll(".modal-thumbs img");
-
-      document.querySelectorAll(".cta").forEach((button) => {
-        button.addEventListener("click", () => {
-          const room = button.dataset.room || "Studio Unit";
-          const hero = button.dataset.hero || "images/studio-1.jpg";
-          modalTitle.textContent = room;
-          modalHero.src = hero;
-          modalThumbs[0].src = hero;
-          modal.setAttribute("aria-hidden", "false");
-          modal.classList.add("open");
-          document.body.style.overflow = "hidden";
-        });
-      });
-
-      modal.addEventListener("click", (event) => {
-        if (event.target.dataset.close === "true") {
-          modal.classList.remove("open");
-          modal.setAttribute("aria-hidden", "true");
-          document.body.style.overflow = "";
-        }
-      });
-    </script>
+    <script src="app.js"></script>
   </body>
 </html>

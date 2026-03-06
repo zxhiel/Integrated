@@ -5,9 +5,11 @@ if (!sessionStorage.getItem("isLoggedIn")) {
 
 const currentUserRole = sessionStorage.getItem("userRole") || "user";
 const currentUserEmail = (sessionStorage.getItem("currentUserEmail") || "").toLowerCase();
+const RESERVATIONS_KEY = "transientReservation";
+const LEGACY_RESERVATIONS_KEY = "Reservations";
 
 // Initialize bookings from localStorage or empty array
-let bookings = JSON.parse(localStorage.getItem("tableReservations")) || [];
+let bookings = JSON.parse(localStorage.getItem(RESERVATIONS_KEY) || localStorage.getItem(LEGACY_RESERVATIONS_KEY) || "[]");
 
 // Set min date to today for date picker
 document.addEventListener("DOMContentLoaded", function() {
@@ -18,7 +20,6 @@ document.addEventListener("DOMContentLoaded", function() {
     displayBookings();
 
     // Setup event listeners
-    document.getElementById("guests").addEventListener("input", updateGuestCount);
     document.getElementById("reservationForm").addEventListener("submit", handleReservationSubmit);
 
     // Set default date to tomorrow
@@ -27,12 +28,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("reservationDate").value = tomorrow.toISOString().split("T")[0];
 });
 
-function updateGuestCount() {
-    const guestSlider = document.getElementById("guests");
-    const guestCount = document.getElementById("guestCount");
-    guestCount.textContent = guestSlider.value;
-}
-
+// Validate reservation fields before allowing submission.
 function validateReservationInputs(data) {
     if (!data.date || !data.time || !data.fullName || !data.email || !data.phone) {
         alert("Please complete all required fields.");
@@ -40,8 +36,8 @@ function validateReservationInputs(data) {
     }
 
     const guestCount = parseInt(data.guests, 10);
-    if (Number.isNaN(guestCount) || guestCount < 1 || guestCount > 12) {
-        alert("Guest count must be between 1 and 12.");
+    if (Number.isNaN(guestCount) || guestCount < 1 || guestCount > 20) {
+        alert("Guest count must be between 1 and 20.");
         return false;
     }
 
@@ -73,6 +69,7 @@ function validateReservationInputs(data) {
     return true;
 }
 
+// Build and save a reservation record after form submission.
 function handleReservationSubmit(e) {
     e.preventDefault();
 
@@ -118,7 +115,7 @@ function handleReservationSubmit(e) {
     bookings.unshift(reservation);
 
     // Save to localStorage
-    localStorage.setItem("tableReservations", JSON.stringify(bookings));
+    localStorage.setItem(RESERVATIONS_KEY, JSON.stringify(bookings));
 
     // Show confirmation message
     showConfirmation(reservation);
@@ -128,9 +125,6 @@ function handleReservationSubmit(e) {
 
     // Reset form
     document.getElementById("reservationForm").reset();
-
-    // Reset guest count display
-    document.getElementById("guestCount").textContent = "2";
     document.getElementById("guests").value = "2";
 
     // Set date to tomorrow again
@@ -139,6 +133,7 @@ function handleReservationSubmit(e) {
     document.getElementById("reservationDate").value = tomorrow.toISOString().split("T")[0];
 }
 
+// Require an extra confirmation step before finalizing the booking.
 function requestBookingAuthentication() {
     const proceed = confirm("Authentication required before booking. Reminder: Once booked, there is a cancellation fee of 500 pesos.");
 
@@ -156,6 +151,7 @@ function requestBookingAuthentication() {
     return true;
 }
 
+// Render the reservation summary and temporary confirmation banner.
 function showConfirmation(reservation) {
     // Update summary
     const summaryDetails = document.getElementById("summaryDetails");
@@ -196,6 +192,7 @@ function showConfirmation(reservation) {
     }, 5000);
 }
 
+// Return whether the current user can view or cancel this booking.
 function canManageBooking(booking) {
     if (currentUserRole === "admin") {
         return true;
@@ -204,8 +201,13 @@ function canManageBooking(booking) {
     return owner && owner === currentUserEmail;
 }
 
+// Render the booking list visible to the signed-in user role.
 function displayBookings() {
     const bookingsList = document.getElementById("bookingsList");
+
+    if (bookingsList && bookingsList.dataset.mode === "amenities") {
+        return;
+    }
     const noBookingsMessage = document.getElementById("noBookingsMessage");
 
     // Clear current list
@@ -258,6 +260,7 @@ function displayBookings() {
     });
 }
 
+// Cancel a reservation by id after permission and user confirmation checks.
 function cancelReservation(id) {
     const target = bookings.find((booking) => booking.id === id);
     if (!target) {
@@ -270,12 +273,12 @@ function cancelReservation(id) {
         return;
     }
 
-    if (confirm("Are you sure you want to cancel this reservation?")) {
+    if (confirm("Are you sure you want to cancel this reservation?, Cancelling the Reservation may lead to a Payment of 500")) {
         // Remove booking with the given ID
         bookings = bookings.filter((booking) => booking.id !== id);
 
         // Update localStorage
-        localStorage.setItem("tableReservations", JSON.stringify(bookings));
+        localStorage.setItem(RESERVATIONS_KEY, JSON.stringify(bookings));
 
         // Update display
         displayBookings();
@@ -285,6 +288,7 @@ function cancelReservation(id) {
     }
 }
 
+// Convert 24-hour time values into 12-hour AM/PM format.
 function formatTime(timeString) {
     const [hours, minutes] = timeString.split(":");
     const hour = parseInt(hours, 10);
@@ -293,6 +297,7 @@ function formatTime(timeString) {
     return `${displayHour}:${minutes} ${ampm}`;
 }
 
+// Clear session data and return the user to the login page.
 function logout() {
     sessionStorage.removeItem("isLoggedIn");
     sessionStorage.removeItem("currentUserEmail");

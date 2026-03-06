@@ -56,3 +56,68 @@ body {
 .link:hover {
   text-decoration: underline;
 }
+
+/* Global consistency overrides */
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+:root {
+  --ui-bg: #f5f4f8;
+  --ui-text: #151326;
+  --ui-muted: #6f6b80;
+  --ui-line: #e9e7f1;
+  --ui-primary: #211a4f;
+}
+body {
+  font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+  background: var(--ui-bg);
+  color: var(--ui-text);
+}
+.brand,
+h4 {
+  color: var(--ui-text);
+}
+.subtitle,
+.small-text {
+  color: var(--ui-muted);
+}
+.card {
+  border-radius: 14px;
+  border: 1px solid var(--ui-line);
+}
+.form-control {
+  border-color: var(--ui-line);
+  border-radius: 10px;
+}
+.form-control:focus {
+  border-color: var(--ui-primary);
+}
+.btn-primary {
+  background: var(--ui-primary);
+  border-color: var(--ui-primary);
+  color: #fff;
+  border-radius: 12px;
+}
+.btn-primary:hover {
+  background: #1a1542;
+  border-color: #1a1542;
+}
+.link {
+  color: var(--ui-primary);
+}
+
+/* Final theme override: gray + white + orange */
+:root {
+  --theme-bg: #f3f3f5;
+  --theme-text: #1f1f1f;
+  --theme-muted: #6f6f6f;
+  --theme-line: #d9d9dd;
+  --theme-accent: #fe8e49;
+}
+body { background: var(--theme-bg); color: var(--theme-text); }
+.brand, h4 { color: var(--theme-text); }
+.subtitle, .small-text { color: var(--theme-muted); }
+.card { background: #fff; border: 1px solid var(--theme-line); box-shadow: none; }
+.form-control { border-color: var(--theme-line); }
+.form-control:focus { border-color: var(--theme-accent); }
+.btn-primary { background: var(--theme-accent); border-color: var(--theme-accent); color: #fff; }
+.btn-primary:hover { background: #e07d3f; border-color: #e07d3f; }
+.link { color: #d86a2d; }
